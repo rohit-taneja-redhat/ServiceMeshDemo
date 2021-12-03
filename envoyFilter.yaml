@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: include-attempt-count-in-response
+  namespace: attempt-count-demo
+spec:
+  workloadSelector:
+    labels:
+      app: servicea
+  configPatches:
+  - applyTo: VIRTUAL_HOST
+    match:
+      context: SIDECAR_OUTBOUND
+    patch:
+      operation: MERGE
+      value:
+        include_attempt_count_in_response: true
